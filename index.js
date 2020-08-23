@@ -55,12 +55,17 @@ bot.on('message', async (message) => {
     }
   }
 
+  // !lol [summoner]
+  if (messageWords[0] === '!lol') {
+    let summoner = messageWords[1];
+    
+  }
+
+  // !help
   if (messageWords[0] === '!help') {
     const embed = new MessageEmbed()
       .setTitle('Roll Dice')
-      .setDescription(
-        '!roll [default 6] \n!roll 2d20'
-      );
+      .setDescription('!roll [default 6] \n!roll 2d20');
     return await message.author.send(embed);
   }
 });
