@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require('discord.js');
+const { Client, MessageEmbed, MessageReaction } = require('discord.js');
 const bot = new Client();
 require('dotenv').config();
 
@@ -13,10 +13,11 @@ bot.on('ready', () => {
 const rollDice = (sides) => Math.floor(Math.random() * sides) + 1;
 
 bot.on('message', async (message) => {
+  const messageContent = message.content;
   const messageWords = message.content.split(' ');
-  console.log(messageWords);
+  console.log('messageWords: ' + messageWords);
   const rollFlavor = messageWords.slice(2).join(' ');
-  console.log(rollFlavor);
+  console.log('rollFlavor: ' + rollFlavor);
 
   // Dice
   if (messageWords[0] === '!roll') {
@@ -55,10 +56,26 @@ bot.on('message', async (message) => {
     }
   }
 
-  // !lol [summoner]
-  if (messageWords[0] === '!lol') {
-    let summoner = messageWords[1];
-    
+  // !poll "title" [option1] [option2] [option3]
+  if (messageWords[0] === '!poll') {
+    const startTitle = messageContent.indexOf('{');
+    const endTitle = messageContent.indexOf('}');
+    const pollTitle = messageContent.substring(startTitle + 1, endTitle - 1);
+    const reaction = new MessageReaction();
+
+    const regx = /\[(.*?)\]/g;
+    const arr = [];
+    let found;
+
+    while ((found = regx.exec(messageContent))) {
+      arr.push(found[1]);
+    }
+    const options = arr.join(' ');
+
+    console.log('pollTitle: ' + pollTitle);
+    console.log('options: ' + options);
+
+    // TODO agregar reaccion emojis
   }
 
   // !help
