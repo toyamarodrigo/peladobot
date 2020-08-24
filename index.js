@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const TOKEN = process.env.TOKEN;
 
+emojiLetters = ['🅰', '🅱', '🅲'];
+
 bot.on('ready', () => {
   console.log(`Logged in as ${bot.user.tag}`);
   console.log(bot.user.presence.status);
@@ -61,21 +63,50 @@ bot.on('message', async (message) => {
     const startTitle = messageContent.indexOf('{');
     const endTitle = messageContent.indexOf('}');
     const pollTitle = messageContent.substring(startTitle + 1, endTitle - 1);
-    const reaction = new MessageReaction();
 
     const regx = /\[(.*?)\]/g;
-    const arr = [];
+    const options = [];
     let found;
 
     while ((found = regx.exec(messageContent))) {
-      arr.push(found[1]);
+      options.push(found[1]);
     }
-    const options = arr.join(' ');
 
-    console.log('pollTitle: ' + pollTitle);
     console.log('options: ' + options);
 
+    const string = options.join(' ');
+
+    console.log('pollTitle: ' + pollTitle);
+    console.log('string options: ' + string);
+
+    // pollMessage = '';
+    // let i = 0;
+
     // TODO agregar reaccion emojis
+    // for (choice in options) {
+    //   if (!(options[i] == '')) {
+    //     if (options.length > 11) {
+    //       await message.channel.send('Maximum of 10 options');
+    //     } else if (!(i == options.length - 1)) {
+    //       pollMessage = pollMessage + '\n\n' + emojiLetters[i] + ' ' + choice;
+    //     }
+    //     i++;
+    //   }
+    // }
+
+    // const e = new MessageEmbed()
+    //   .setTitle('**' + pollTitle + '**')
+    //   .setDescription(pollMessage)
+    //   .setColor(0x83bae3);
+    // pollMessage = await message.channel.send((embed = e));
+    // finalOptions = [];
+    // for (choice in options) {
+    //   if (!(i == options.length - 1) && !(options[i] == '')) {
+    //     finalOptions.push(choice);
+    //     await pollMessage.react(emojiLetters[i]);
+    //     i++;
+    //   }
+    // }
   }
 
   // !help
